@@ -213,6 +213,12 @@ def test_endpoints_api(cliente_api, caso_uso_importar, ruta_excel_real: Path):
     assert c29["costo_maximo"] == 2605.0
     assert c29["costo_monto"] is None
 
+    # 4.1. Normalización flexible de identificadores (ej: '2', '02', 'c02' -> 'C02')
+    for variante in ["2", "02", "c02", "C02"]:
+        resp_var = cliente_api.get(f"/api/carreras/{variante}")
+        assert resp_var.status_code == 200
+        assert resp_var.json()["id_carrera"] == "C02"
+
     # 5. Detalle de carrera inexistente
     resp_404 = cliente_api.get("/api/carreras/C999")
     assert resp_404.status_code == 404
