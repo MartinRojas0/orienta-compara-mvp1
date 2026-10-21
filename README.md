@@ -83,3 +83,12 @@ curl "http://localhost:8000/api/carreras/C999"
 ```
 
 La respuesta de listado incluye `total`, `limite`, `desplazamiento` y `elementos`.
+
+
+### Comparacion de carreras
+
+```bash
+curl -X POST "http://localhost:8000/api/comparar"   -H "Content-Type: application/json"   -d '{"id_carrera_1":"C01","id_carrera_2":"C02"}'
+```
+
+Validaciones: IDs distintos (400 si son iguales) y existencia de ambas carreras (404 si alguna no existe).
