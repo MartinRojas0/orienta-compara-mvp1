@@ -13,9 +13,14 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="ORIENTA Compara MVP1",
+    title="ORIENTA Compara MVP1 - API de Cat?logo",
+    description="API REST para consultar el cat?logo de carreras universitarias.",
     version="0.1.0",
     lifespan=lifespan,
+    openapi_tags=[
+        {"name": "Carreras", "description": "Operaciones sobre el cat?logo de carreras."},
+        {"name": "Sistema", "description": "Endpoints de estado del servicio."},
+    ],
 )
 
 app.add_middleware(
@@ -27,7 +32,7 @@ app.add_middleware(
 )
 
 
-@app.get("/health")
+@app.get("/health", tags=["Sistema"], summary="Estado del servicio")
 def health():
     return {"status": "ok", "service": "orienta-compara-mvp1"}
 

@@ -1,6 +1,6 @@
 # ORIENTA Compara MVP1
 
-Plataforma web para comparar opciones de orientaci髇 profesional (MVP 1).
+Plataforma web para comparar opciones de orientaci贸n profesional (MVP 1).
 
 ## Stack
 
@@ -10,18 +10,18 @@ Plataforma web para comparar opciones de orientaci髇 profesional (MVP 1).
 
 ## Arquitectura
 
-Backend organizado con arquitectura h韇rida (capa de presentaci髇 + estilo hexagonal):
+Backend organizado con arquitectura h铆brida (capa de presentaci贸n + estilo hexagonal):
 
 ```
 backend/app/
 +-- domain/          # Entidades y reglas de negocio
 +-- application/     # Casos de uso
 +-- adapters/        # Adaptadores de entrada/salida
-+-- infrastructure/  # Configuraci髇, DB, etc.
++-- infrastructure/  # Configuraci贸n, DB, etc.
 +-- main.py          # Punto de entrada FastAPI
 ```
 
-## Instalaci髇 y ejecuci髇
+## Instalaci贸n y ejecuci贸n
 
 ### Backend
 
@@ -48,3 +48,38 @@ npm run dev
 ```
 
 Frontend disponible en http://localhost:5173.
+
+
+## API de cat?logo
+
+Una vez levantado el backend, la documentaci?n interactiva est? disponible en:
+
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+### Endpoints principales
+
+- `GET /api/carreras` - Listado paginado con filtros opcionales.
+- `GET /api/carreras/{id_carrera}` - Detalle de una carrera.
+- `POST /api/carreras/importar` - Importa carreras desde Excel (uso administrativo).
+
+### Ejemplos de uso
+
+```bash
+# Listado general (primeras 10)
+curl "http://localhost:8000/api/carreras?limite=10&desplazamiento=0"
+
+# Filtrar por instituci?n y ?rea de formaci?n
+curl "http://localhost:8000/api/carreras?institucion=UNI&area_formacion=Ingenieria"
+
+# Filtrar por modalidad y ubicaci?n
+curl "http://localhost:8000/api/carreras?modalidad=Presencial&ubicacion=Lima%20Norte"
+
+# Detalle de una carrera
+curl "http://localhost:8000/api/carreras/C02"
+
+# Carrera inexistente (404)
+curl "http://localhost:8000/api/carreras/C999"
+```
+
+La respuesta de listado incluye `total`, `limite`, `desplazamiento` y `elementos`.

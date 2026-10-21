@@ -30,6 +30,7 @@ class RepositorioCarrera(ABC):
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
         limite: int = 100,
         desplazamiento: int = 0,
     ) -> list[Carrera]:
@@ -42,6 +43,7 @@ class RepositorioCarrera(ABC):
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
     ) -> int:
         """Cuenta el total de carreras según filtros opcionales."""
         pass

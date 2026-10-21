@@ -223,3 +223,39 @@ def test_endpoints_api(cliente_api, caso_uso_importar, ruta_excel_real: Path):
     resp_404 = cliente_api.get("/api/carreras/C999")
     assert resp_404.status_code == 404
     assert "no encontrada" in resp_404.json()["detail"]
+
+
+def test_filtro_ubicacion_api(cliente_api, caso_uso_importar, ruta_excel_real: Path):
+    """Verifica el filtro por ubicacion en el endpoint de listado."""
+    caso_uso_importar.ejecutar(ruta_excel_real)
+
+    resp = cliente_api.get("/api/carreras?ubicacion=Virtual")
+    assert resp.status_code == 200
+    datos = resp.json()
+    assert datos["total"] == 2
+    assert len(datos["elementos"]) == 2
+    assert all(el["ubicacion"] == "Virtual" for el in datos["elementos"])
+
+    resp2 = cliente_api.get("/api/carreras?ubicacion=Lima")
+    assert resp2.status_code == 200
+    datos2 = resp2.json()
+    assert datos2["total"] == 6
+    assert all(el["ubicacion"] == "Lima" for el in datos2["elementos"])
+
+
+def test_paginacion_api(cliente_api, caso_uso_importar, ruta_excel_real: Path):
+    """Verifica la paginacion y el total de registros en la respuesta."""
+    caso_uso_importar.ejecutar(ruta_excel_real)
+
+    resp = cliente_api.get("/api/carreras?limite=5&desplazamiento=0")
+    assert resp.status_code == 200
+    datos = resp.json()
+    assert datos["total"] == 35
+    assert datos["limite"] == 5
+    assert datos["desplazamiento"] == 0
+    assert len(datos["elementos"]) == 5
+
+    resp2 = cliente_api.get("/api/carreras?limite=5&desplazamiento=30")
+    assert resp2.status_code == 200
+    datos2 = resp2.json()
+    assert len(datos2["elementos"]) == 5
