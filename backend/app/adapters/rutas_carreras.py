@@ -1,4 +1,4 @@
-import os
+﻿import os
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlmodel import Session
@@ -36,10 +36,10 @@ def obtener_caso_uso_importacion(
 @enrutador_carreras.get(
     "",
     response_model=ListaCarrerasRespuesta,
-    summary="Listar carreras del cat?logo",
+    summary="Listar carreras del catálogo",
     description=(
         "Devuelve el listado paginado de carreras disponibles. "
-        "Permite filtrar por instituci?n, ?rea de formaci?n, modalidad y ubicaci?n."
+        "Permite filtrar por institución, área de formación, modalidad y ubicación."
     ),
     responses={200: {"description": "Listado paginado de carreras"}},
 )
@@ -47,7 +47,7 @@ def listar_carreras(
     institucion: Optional[str] = Query(None, description="Filtrar por sigla de institución (ej: UTP, UNI, UPN, UNMSM)"),
     area_formacion: Optional[str] = Query(None, description="Filtrar por área de formación (ej: Ingeniería, Negocios, Salud)"),
     modalidad: Optional[str] = Query(None, description="Filtrar por modalidad (ej: Presencial, Semipresencial)"),
-    ubicacion: Optional[str] = Query(None, description="Filtrar por ubicacion (ej: Lima Norte, Lima Sur)"),
+    ubicacion: Optional[str] = Query(None, description="Filtrar por ubicación (ej: Lima Norte, Lima Sur)"),
     limite: int = Query(100, ge=1, le=500, description="Cantidad máxima de registros a devolver"),
     desplazamiento: int = Query(0, ge=0, description="Número de registros a omitir para paginación"),
     caso_uso: CasoUsoConsultarCarreras = Depends(obtener_caso_uso_consulta),
@@ -78,7 +78,7 @@ def listar_carreras(
     "/{id_carrera}",
     response_model=CarreraRespuesta,
     summary="Obtener detalle de una carrera",
-    description="Devuelve el detalle completo de una carrera a partir de su identificador ?nico.",
+    description="Devuelve el detalle completo de una carrera a partir de su identificador único.",
     responses={
         200: {"description": "Detalle de la carrera"},
         404: {"description": "Carrera no encontrada"},
