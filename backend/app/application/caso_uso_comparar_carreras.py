@@ -99,8 +99,11 @@ class CasoUsoCompararCarreras:
             costo_es_rango_1=carrera_1.costo_es_rango,
             costo_es_rango_2=carrera_2.costo_es_rango,
             nota_datos=(
-                "Los costos marcados como rango institucional son estimados a partir del rango "
-                "publicado por la institucion; los costos fijos son valores verificados. "
-                "Las fuentes y fechas de revision se incluyen en cada carrera."
+                "Clasificacion de datos: costo estimado cuando costo_es_rango es verdadero "
+                "(rango institucional); costo verificado cuando costo_es_rango es falso y "
+                "costo_monto tiene valor; costo no disponible cuando costo_monto es nulo y "
+                "no es rango. Los demas criterios se consideran verificados si tienen valor "
+                "y no disponibles si estan vacios. Las fuentes y fechas de revision se "
+                "incluyen en cada carrera."
             ),
         )

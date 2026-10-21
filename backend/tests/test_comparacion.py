@@ -48,3 +48,20 @@ def test_comparacion_carrera_inexistente(cliente_api, caso_uso_importar, ruta_ex
     )
     assert resp.status_code == 404
     assert "no encontrada" in resp.json()["detail"]
+
+
+def test_comparacion_clasificacion_datos(cliente_api, caso_uso_importar, ruta_excel_real: Path):
+    caso_uso_importar.ejecutar(ruta_excel_real)
+
+    resp = cliente_api.post(
+        "/api/comparar",
+        json={"id_carrera_1": "C29", "id_carrera_2": "C01"},
+    )
+    assert resp.status_code == 200
+    datos = resp.json()
+    assert datos["costo_es_rango_1"] is True
+    assert datos["costo_es_rango_2"] is False
+    assert "Clasificacion de datos" in datos["nota_datos"]
+    assert datos["carrera_1"]["alcance_costo"]
+    assert datos["carrera_1"]["fuente_costo"]
+    assert datos["carrera_1"]["fecha_revision"]

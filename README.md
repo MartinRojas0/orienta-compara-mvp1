@@ -12,13 +12,13 @@ Plataforma web para comparar opciones de orientación profesional (MVP 1).
 
 Backend organizado con arquitectura híbrida (capa de presentación + estilo hexagonal):
 
-```
+```text
 backend/app/
-+-- domain/          # Entidades y reglas de negocio
-+-- application/     # Casos de uso
-+-- adapters/        # Adaptadores de entrada/salida
-+-- infrastructure/  # Configuración, DB, etc.
-+-- main.py          # Punto de entrada FastAPI
+├── domain/          # Entidades y reglas de negocio
+├── application/     # Casos de uso
+├── adapters/        # Adaptadores de entrada/salida
+├── infrastructure/  # Configuración, DB, etc.
+└── main.py          # Punto de entrada FastAPI
 ```
 
 ## Instalación y ejecución
@@ -49,10 +49,9 @@ npm run dev
 
 Frontend disponible en http://localhost:5173.
 
+## API de catálogo
 
-## API de cat?logo
-
-Una vez levantado el backend, la documentaci?n interactiva est? disponible en:
+Una vez levantado el backend, la documentación interactiva está disponible en:
 
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
@@ -69,10 +68,10 @@ Una vez levantado el backend, la documentaci?n interactiva est? disponible en:
 # Listado general (primeras 10)
 curl "http://localhost:8000/api/carreras?limite=10&desplazamiento=0"
 
-# Filtrar por instituci?n y ?rea de formaci?n
+# Filtrar por institución y área de formación
 curl "http://localhost:8000/api/carreras?institucion=UNI&area_formacion=Ingenieria"
 
-# Filtrar por modalidad y ubicaci?n
+# Filtrar por modalidad y ubicación
 curl "http://localhost:8000/api/carreras?modalidad=Presencial&ubicacion=Lima%20Norte"
 
 # Detalle de una carrera
@@ -84,11 +83,14 @@ curl "http://localhost:8000/api/carreras/C999"
 
 La respuesta de listado incluye `total`, `limite`, `desplazamiento` y `elementos`.
 
-
-### Comparacion de carreras
+## Comparación de carreras
 
 ```bash
-curl -X POST "http://localhost:8000/api/comparar"   -H "Content-Type: application/json"   -d '{"id_carrera_1":"C01","id_carrera_2":"C02"}'
+curl -X POST "http://localhost:8000/api/comparar" \
+  -H "Content-Type: application/json" \
+  -d '{"id_carrera_1":"C01","id_carrera_2":"C02"}'
 ```
 
 Validaciones: IDs distintos (400 si son iguales) y existencia de ambas carreras (404 si alguna no existe).
+
+La respuesta incluye los seis criterios lado a lado, diferencias numéricas de duración y costo, fuentes y fechas de revisión, y la indicación de datos estimados, verificados o no disponibles mediante `costo_es_rango`, `alcance_costo`, `costo_monto` y las fuentes asociadas.
