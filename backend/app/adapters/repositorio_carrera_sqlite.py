@@ -71,6 +71,7 @@ class RepositorioCarreraSQLite(RepositorioCarrera):
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
         limite: int = 100,
         desplazamiento: int = 0,
     ) -> list[Carrera]:
@@ -83,6 +84,8 @@ class RepositorioCarreraSQLite(RepositorioCarrera):
             consulta = consulta.where(CarreraDB.area_formacion == area_formacion)
         if modalidad:
             consulta = consulta.where(CarreraDB.modalidad == modalidad)
+        if ubicacion:
+            consulta = consulta.where(CarreraDB.ubicacion == ubicacion)
 
         consulta = consulta.order_by(col(CarreraDB.id_carrera)).offset(desplazamiento).limit(limite)
         registros = self.sesion.exec(consulta).all()
@@ -93,6 +96,7 @@ class RepositorioCarreraSQLite(RepositorioCarrera):
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
     ) -> int:
         """Cuenta la cantidad total de carreras que cumplen los criterios."""
         consulta = select(func.count(col(CarreraDB.id_carrera)))
@@ -103,6 +107,8 @@ class RepositorioCarreraSQLite(RepositorioCarrera):
             consulta = consulta.where(CarreraDB.area_formacion == area_formacion)
         if modalidad:
             consulta = consulta.where(CarreraDB.modalidad == modalidad)
+        if ubicacion:
+            consulta = consulta.where(CarreraDB.ubicacion == ubicacion)
 
         total = self.sesion.exec(consulta).one()
         return int(total)

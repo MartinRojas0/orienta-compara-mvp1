@@ -41,6 +41,7 @@ class CasoUsoConsultarCarreras:
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
         limite: int = 100,
         desplazamiento: int = 0,
     ) -> list[Carrera]:
@@ -49,6 +50,7 @@ class CasoUsoConsultarCarreras:
             institucion=institucion,
             area_formacion=area_formacion,
             modalidad=modalidad,
+            ubicacion=ubicacion,
             limite=limite,
             desplazamiento=desplazamiento,
         )
@@ -58,10 +60,12 @@ class CasoUsoConsultarCarreras:
         institucion: Optional[str] = None,
         area_formacion: Optional[str] = None,
         modalidad: Optional[str] = None,
+        ubicacion: Optional[str] = None,
     ) -> int:
         """Cuenta el total de carreras que cumplen con los filtros."""
         return self.repositorio.contar(
             institucion=institucion,
             area_formacion=area_formacion,
             modalidad=modalidad,
+            ubicacion=ubicacion,
         )

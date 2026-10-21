@@ -36,12 +36,18 @@ def obtener_caso_uso_importacion(
 @enrutador_carreras.get(
     "",
     response_model=ListaCarrerasRespuesta,
-    summary="Listar carreras con filtros opcionales",
+    summary="Listar carreras del cat?logo",
+    description=(
+        "Devuelve el listado paginado de carreras disponibles. "
+        "Permite filtrar por instituci?n, ?rea de formaci?n, modalidad y ubicaci?n."
+    ),
+    responses={200: {"description": "Listado paginado de carreras"}},
 )
 def listar_carreras(
     institucion: Optional[str] = Query(None, description="Filtrar por sigla de institución (ej: UTP, UNI, UPN, UNMSM)"),
     area_formacion: Optional[str] = Query(None, description="Filtrar por área de formación (ej: Ingeniería, Negocios, Salud)"),
     modalidad: Optional[str] = Query(None, description="Filtrar por modalidad (ej: Presencial, Semipresencial)"),
+    ubicacion: Optional[str] = Query(None, description="Filtrar por ubicacion (ej: Lima Norte, Lima Sur)"),
     limite: int = Query(100, ge=1, le=500, description="Cantidad máxima de registros a devolver"),
     desplazamiento: int = Query(0, ge=0, description="Número de registros a omitir para paginación"),
     caso_uso: CasoUsoConsultarCarreras = Depends(obtener_caso_uso_consulta),
@@ -50,6 +56,7 @@ def listar_carreras(
         institucion=institucion,
         area_formacion=area_formacion,
         modalidad=modalidad,
+        ubicacion=ubicacion,
         limite=limite,
         desplazamiento=desplazamiento,
     )
@@ -57,6 +64,7 @@ def listar_carreras(
         institucion=institucion,
         area_formacion=area_formacion,
         modalidad=modalidad,
+        ubicacion=ubicacion,
     )
     return ListaCarrerasRespuesta(
         total=total,
@@ -69,7 +77,12 @@ def listar_carreras(
 @enrutador_carreras.get(
     "/{id_carrera}",
     response_model=CarreraRespuesta,
-    summary="Obtener detalle de una carrera por identificador",
+    summary="Obtener detalle de una carrera",
+    description="Devuelve el detalle completo de una carrera a partir de su identificador ?nico.",
+    responses={
+        200: {"description": "Detalle de la carrera"},
+        404: {"description": "Carrera no encontrada"},
+    },
 )
 def obtener_detalle_carrera(
     id_carrera: str,
